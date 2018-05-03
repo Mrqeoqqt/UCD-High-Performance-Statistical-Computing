@@ -1,0 +1,350 @@
+%%%%%%%%%全局设置%%%%%%%%%
+\documentclass[a4paper,11pt]{article}
+\usepackage{fancyhdr}
+\usepackage{amsmath,amsfonts,amssymb,graphicx}
+\usepackage{times}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{indentfirst}
+\usepackage{epstopdf}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{bm}
+\usepackage{threeparttable}
+\usepackage[colorlinks,linkcolor=black,anchorcolor=black,citecolor=black]{hyperref}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+
+\usepackage{algorithm}  
+\usepackage{algpseudocode}  
+\usepackage{amsmath}  
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}  % Use Input in the format of Algorithm  
+\renewcommand{\algorithmicensure}{\textbf{Output:}} % Use Output in the format of Algorithm  
+
+\lstset{
+	numbers=left,
+    numberstyle=\tiny,
+	basicstyle=\small\ttfamily,
+	stringstyle=\color{purple},
+ 	keywordstyle=\color{blue}\bfseries,
+	commentstyle=\color{olive},
+	frame=shadowbox,
+	%framerule=0pt,
+	%backgroundcolor=\color{pink},
+	rulesepcolor=\color{red!20!green!20!blue!20},
+	%rulesepcolor=\color{brown}
+	%xleftmargin=2em,xrightmargin=2em,aboveskip=1em
+	escapeinside=``, 
+    basicstyle=\tiny
+}
+%%%%%%%%%%%%%重定义中文环境名%%%%%%%
+\renewcommand{\lstlistingname}{程序}
+
+%%%%%%%%%%%%风格设置%%%%%%%%%%%%%%%
+\addtolength{\topmargin}{-54pt}
+\setlength{\oddsidemargin}{-0.5cm}
+\setlength{\evensidemargin}{\oddsidemargin}
+\setlength{\textwidth}{17.00cm}
+\setlength{\textheight}{24.50cm}
+\renewcommand{\baselinestretch}{1.1}
+\parindent 22pt
+
+%%%%%%%%%%%%%%正文%%%%%%%%%%%%%%%%
+\title{\Large\textbf{Homework1: Regression and Classification}}
+\author{Mingyi Xue\footnote{GSP student from Nanjing University}}
+
+\begin{document}
+\date{\today}
+\maketitle
+\section{Problem1 Regression}
+The loss function is defined as follows,\\
+\begin{equation}
+	\bm{\omega^{*}}=\arg\min_{\bm{\omega}}\{
+	\frac{1}{n}\sum_{i=1}^{n}{(\bm{x_{i}^{T}}\bm{\omega}-y_{i})}^{2}+\frac{\lambda}{2}\|\bm{\omega}\|^{2}\}
+\end{equation}
+\par
+Derive the gradient of equation$(1)$,\\
+\begin{equation}
+	\frac{\partial f(\bm{\omega})}{\partial\bm{\omega}}=\frac{2}{n}\bm{X^{T}}(\bm{X}\bm{\omega}-Y)+\lambda\bm{\omega}
+\end{equation}
+\par
+\begin{algorithm} [H] 
+	\caption{Gradient Descent with Fixed Step Size}  
+	\begin{algorithmic}
+		\Require $\eta$: step size, $\epsilon$: stopping condition, $\bm{\omega_{0}}$: initial solution , $iter$: number of iteration
+		\Ensure  $\bm{\omega}$
+		\State   $\bm{\omega}\gets\bm{\omega_{0}}$
+		\State   $r_{0}\gets\|\nabla f(\bm{\omega})\|$
+		\For{$i = 0 \to iter-1$}  
+		\State $\bm{g}=\nabla f(\bm{\omega})$
+		\If {$\|\bm{g}\|\le \epsilon r_{0}$}
+		\State $break$
+		\EndIf
+		\State $\bm{\omega}\gets\bm{\omega_{0}}-\eta\bm{g}$
+		\EndFor  
+	\end{algorithmic}  
+\end{algorithm}  
+\par
+\subsection*{Problem 1.1}
+\subsubsection*{pretreatment}
+We apply the gradient descent algorithm to dataset ``cpusmall", normalizing dataset so that the value of loss function and gradient won't exceed the maximum of real number in python. \par
+\subsubsection*{parameters}
+``cpusmall" is a dataset of 8192 sample and 12 features. $\bm{\omega_{0}}$ is set to a column of 12 zeros in each outer interation for a specific stepsize. Other parameters are as follows,\\
+\begin{table}[H]
+	\begin{center}
+		\caption{default parameters}
+		\begin{tabular}{cc}
+			\toprule[2pt]
+			name &	value  \\ 
+			\hline 
+			$\lambda$ &	$1$  \\ 
+			$\epsilon$ & $0.001$  \\ 
+			$\#$ of iterations & $5000$  \\ 
+			\bottomrule[2pt]
+		\end{tabular} 
+	\end{center}
+\end{table}
+\par
+\subsubsection*{results}
+The final output records the value of loss function $f(\bm{\omega})$ in the last iteration, whether $\bm{\omega}$ has converged or not within $5000$ iterations and the plot of reduction in the value of loss function. The results are as follows,\\  
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[t]{0.2\textwidth}
+		\centering
+		\includegraphics[width=1\textwidth]{Exercise1_1-7.png}
+		\subcaption{step size = $10^{-7}$}
+	\end{subfigure}
+	\quad
+	\begin{subfigure}[t]{0.2\textwidth}
+		\centering
+		\includegraphics[width=1\textwidth]{Exercise1_1-6.png}
+		\subcaption{step size = $10^{-6}$}
+	\end{subfigure}
+	\quad
+	\begin{subfigure}[t]{0.2\textwidth}
+		\centering
+		\includegraphics[width=1\textwidth]{Exercise1_1-5.png}
+		\subcaption{step size = $10^{-5}$}
+	\end{subfigure}
+	\\
+	\begin{subfigure}[t]{0.2\textwidth}
+	\centering
+	\includegraphics[width=1\textwidth]{Exercise1_1-4.png}
+	\subcaption{step size = $10^{-4}$}
+	\end{subfigure}
+	\quad
+	\begin{subfigure}[t]{0.2\textwidth}
+		\centering
+		\includegraphics[width=1\textwidth]{Exercise1_1-3.png}
+		\subcaption{step size = $10^{-3}$}
+	\end{subfigure}
+		\quad
+	\begin{subfigure}[t]{0.2\textwidth}
+		\centering
+		\includegraphics[width=1\textwidth]{Exercise1_1-2.png}
+		\subcaption{step size = $10^{-2}$}
+	\end{subfigure}
+	\caption{results of different step size}
+\end{figure}
+\par
+\begin{table}[H]
+	\begin{center}
+		\caption{results of different step size}
+		\begin{tabular}{ccc}
+			\toprule[2pt] 
+			step size $\eta$ & final value of $f(\bm{\omega})$	 &converge  \\ 
+			\hline 
+			$10^{-7}$ & $1.22070\times 10^{-4} $ & not yet \\ 
+			$10^{-6}$ & $1.22069\times 10^{-4}$ &  not yet\\ 
+			$10^{-5}$ & $1.22059\times 10^{-4}$ &  not yet\\
+			$10^{-4}$ & $1.21996\times 10^{-4}$ &  not yet\\
+			$10^{-3}$ & $1.21952\times 10^{-4}$ &  not yet\\
+			$10^{-2}$ & $1.21952\times 10^{-4} $ & yes\\
+			\bottomrule[2pt]
+		\end{tabular} 
+	\end{center}
+\end{table}
+\par
+\begin{table}[H]
+	\begin{center}
+		\caption{three best step size and its weight vector}
+		\begin{tabular}{cccc}
+			\toprule[2pt] 
+			& $10^{-4}$ &$10^{-3}$ & $10^{-2}$\\ 
+			\hline 
+			$\omega_{1}$&$7.49\times 10^{-5}$&$7.45\times 10^{-5}$	&$2.96\times 10^{-5}$ 	\\
+			$\omega_{2}$&$9.02\times 10^{-5}$&$8.97\times 10^{-5}$	&$3.56\times 10^{-5}$	\\
+			$\omega_{3}$&$1.84\times 10^{-4}$&$1.83\times 10^{-4}$	&$7.27\times 10^{-5}$	\\
+			$\omega_{4}$&$1.61\times 10^{-4}$&$1.60\times 10^{-4}$	&$6.35\times 10^{-5}$	\\
+			$\omega_{5}$&$1.52\times 10^{-4}$&$1.51\times 10^{-4}$	&$6.00\times 10^{-5}$	\\
+			$\omega_{6}$&$1.29\times 10^{-4}$&$1.28\times 10^{-4}$	&$5.08\times 10^{-5}$	\\
+			$\omega_{7}$&$9.91\times 10^{-5}$&$9.85\times 10^{-5}$	&$3.91\times 10^{-5}$	\\
+			$\omega_{8}$&$1.38\times 10^{-4}$&$1.37\times 10^{-4}$	&$5.44\times 10^{-5}$	\\
+			$\omega_{9}$&$1.21\times 10^{-4}$&$1.21\times 10^{-4}$	&$4.79\times 10^{-5}$	\\
+			$\omega_{10}$&$4.23\times 10^{-6}$&$4.20\times 10^{-6}$	&$1.68\times 10^{-6}$	\\
+			$\omega_{11}$&$1.49\times 10^{-4}$&$1.48\times 10^{-4}$	&$5.89\times 10^{-5}$	\\
+			$\omega_{12}$&$2.38\times 10^{-4}$&$2.36\times 10^{-4}$	&$9.36\times 10^{-5}$	\\
+			\bottomrule[2pt]
+		\end{tabular} 
+	\end{center}
+\end{table}
+\subsubsection*{conclusion}
+\begin{itemize}
+	\item When the step size is too small, the speed of reduction in loss function will be slow, and $\bm{\omega}$ more iterations and time are needed to converge.
+	\item When the step size is very large, $\bm{\omega}$ may diverge. If we do not normalize the dataset at the beginning, $10^{-7}\sim 10^{-2}$ will be too large for the program and a step size smaller than $10^{-13}$ is doable.
+	\item As a result, choosing the appropriate step size or learning rate is of significantly importance in machine learning.  $10^{-3}$ and $10^{-2}$ are acceptable step sizes for this problem.
+\end{itemize}
+\par
+
+\subsection*{Problem 1.2}
+\subsubsection*{pretreatment}
+Normalize the dataset ``cpusmall" as Problem 1.1.\par
+Apply cross validation on the dataset. Zip matrix $\bm{X}$ with $\bm{Y}$ as a large matrix $\bm{data}$, shuffle $\bm{data}$ and split it evenly into $5$ folders, treating $4$ folders of which as training set and the rest one as test set.\par
+Run gradient descent algorithm on training set and calculate MSE of the test set.\par
+\subsubsection*{parameters}
+\begin{table}[H]
+	\begin{center}
+		\caption{default parameters}
+		\begin{tabular}{cc}
+			\toprule[2pt]
+			name &	value  \\ 
+			\hline 
+			$\lambda$ &	$1$  \\ 
+			step size $\eta$ & $10^{-2}$  \\ 
+			$\#$ of folders & $5$  \\ 
+			$\#$ of iterations& $1000$\\
+			\bottomrule[2pt]
+		\end{tabular} 
+	\end{center}
+\end{table}
+\par
+\begin{equation}
+	\begin{aligned}
+		MSE&=\frac{1}{n_{test}}\sum_{i=1}^{n_{test}}\{(\bm{x_{i}^{T}}\bm{\omega}-y_{i})^{2}\}\\
+		&=\frac{\|\bm{X}\bm{\omega}-Y\|^2}{n_{test}}
+	\end{aligned}
+\end{equation}
+\par
+\subsubsection*{results}
+\begin{table}[H]
+	\begin{center}
+		\caption{MSE}
+		\begin{tabular}{cc}
+			\toprule[2pt]
+			test folder&	value of MSE \\ 
+			\hline 
+			$1$ &	$1.21159\times 10^{-4}$  \\ 
+			$2$ & 	$1.21787\times 10^{-4}$  \\ 
+			$3$ & 	$1.22295\times 10^{-4}$  \\ 
+			$4$ & 	$1.21572\times 10^{-4}$	 \\
+			$5$ & 	$1.22356\times 10^{-4}$  \\
+			\hline
+			$mean$& 	$1.21834\times 10^{-4}$  \\
+			\bottomrule[2pt]
+		\end{tabular} 
+	\end{center}
+\end{table}
+\par
+\subsection*{Problem 1.3}
+\subsubsection*{parameters}
+\begin{table}[H]
+	\begin{center}
+		\caption{default parameters}
+		\begin{tabular}{cc}
+			\toprule[2pt]
+			name & value\\
+			\hline
+			$\epsilon$&$0.001$\\
+			$\#$ of iterations&$2000$\\
+			\bottomrule[2pt]
+		\end{tabular} 
+	\end{center}
+\end{table}
+\par
+\subsubsection*{results}
+The final output records the value of test MSE, whether $\bm{\omega}$ has converged or not within $2000$ iterations, the plot of reduction in the value of loss function and the scatter plot of estimated $\hat{y}$ vs. target $y$.\par
+Results are as follows,\\ 
+\begin{table}[H]
+	\begin{center}
+		\begin{threeparttable}
+			\centering \caption{results of different step size}
+			\begin{tabular}{cccc}
+				\toprule[2pt]
+				stepsize&value of test MSE&final value of $f(\bm{\omega})$ & converge\\
+				\hline
+				$10^{-4}$&$0.156556$	&$50392.03$	&not yet\\
+				$10^{-3}$&$0.150899$	&$1370.50$	&not yet\\
+				$10^{-2}${\tnote{*}}&$0.150888$	&$0.7328$	&yes	\\
+				$10^{-1}$&--			&--			& diverge    \\
+				\bottomrule[2pt]
+			\end{tabular} 
+			\begin{tablenotes}
+				\item[*] This step size is best.
+			\end{tablenotes}
+		\end{threeparttable}
+	\end{center}
+\end{table}
+\par
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[t]{0.2\textwidth}
+		\centering
+		\includegraphics[width=1\textwidth]{Exercise1_3-4.png}
+		\subcaption{step size = $10^{-4}$}
+	\end{subfigure}
+	\quad
+	\begin{subfigure}[t]{0.2\textwidth}
+		\centering
+		\includegraphics[width=1\textwidth]{Exercise1_3-3.png}
+		\subcaption{step size = $10^{-3}$}
+	\end{subfigure}
+	\quad
+	\begin{subfigure}[t]{0.2\textwidth}
+		\centering
+		\includegraphics[width=1\textwidth]{Exercise1_3-2.png}
+		\subcaption{step size = $10^{-2}$}
+	\end{subfigure}
+\end{figure}
+\par
+\section{Problem2 Classification}
+\subsection*{Problem 2.1}
+The loss function for logistic regression is defined as follows,\\
+\begin{equation}
+\bm{\omega^{*}}=\arg\min_{\bm{\omega}}\{
+\frac{1}{n}\sum_{i=1}^{n}{\log(1+\mathrm{e}^{-y_{i}\bm{\omega^{T}}\bm{x_{i}}})}+\frac{\lambda}{2}\|\bm{\omega}\|^{2}\}
+\end{equation}
+\par
+Derive the gradient of equation$(4)$,\\
+\begin{equation}
+\frac{\partial f(\bm{\omega})}{\partial\bm{\omega}}=\frac{1}{n} \sum_{i=1}^{n}\frac{-y_{i}}{1+\mathrm{e}^{-y_{i}\bm{\omega^{T}}\bm{x_{i}}}}\bm{x_{i}}+\lambda\bm{\omega}
+\end{equation}
+\par
+In python, we can use numpy.ndarray broadcast to simplify calculation and save time,\\
+\begin{equation}
+\begin{aligned}
+&\bm{K}=np.array(\bm{X}@\bm{w})*np.array(\bm{Y})\\
+&\bm{M}=-np.array(\bm{Y})*\frac{1}{1+\mathrm{e}^{\bm{K}}}\\
+&\frac{\partial f(\bm{\omega})}{\partial\bm{\omega}}=\frac{1}{n}\bm{X^{T}}\bm{M} +\lambda\bm{\omega}
+\end{aligned}
+\end{equation}
+\par
+\subsection*{Problem 2.2}
+The initial $\bm{\omega_{0}}$ is randomly normal distributed.\\
+\begin{table}[H]
+	\begin{center}
+		\caption{default parameters}
+		\begin{tabular}{cc}
+			\toprule[2pt]
+			dataset & accuracy\\
+			\hline
+			training set&$69.92\%$\\
+			test set&$68.28\%$\\
+			\bottomrule[2pt]
+		\end{tabular} 
+	\end{center}
+\end{table}
+\end{document}
