@@ -1,2 +1,8 @@
 !*.pdf
 !*.py
+*.png
+*.log
+*.aux
+*.tex
+*.out
+*.gz
