@@ -41,6 +41,18 @@
 \renewcommand{\baselinestretch}{1.1}
 \parindent 22pt
 
+<<<<<<< HEAD
+\title{\Large \textbf{Analyzing the Dataset of Kobe Bryant Shot Selection}}
+\author{
+Mingyi Xue\footnote{Three authors are all exchange students from Nanjing University.}\\[2pt]
+{\large \textit{School of Chemistry and Chemical Engineering, Nanjing University}}\\[6pt]Wangqian Miao
+\\[2pt]
+{\large \textit{Kuang Yaming Hornors School, Biophysics, Nanjing University}}\\[6pt]
+Rui Wang\\[2pt]
+{\large \textit{School of Business, Nanjing University}}\\[6pt]
+\textbf{Instructor:} Prof. Cho-Jui Hsieh\\[2pt]
+{\large \textit{Department of Computer Science \& Statistics, University of California, Davis}}\\[2pt]
+=======
 \title{\Large \textbf{Kobe Bryant Shot Selection}}
 \author{
 Wangqian Miao\footnote{Authors are all exchange students from Nanjing University.}
@@ -52,6 +64,7 @@ Rui Wang\\[2pt]
 {\large \textit{Business School, Nanjing University}}\\[6pt]
 Instructor: Prof. Cho-Jui Hsieh\\[2pt]
 {\large \textit{Department of Computer Science and Statistics, University of California, Davis}}\\[2pt]
+>>>>>>> 40f211d26abe97323efd3d418d23c5a5d18df529
 }
 \date{}
 
@@ -65,9 +78,15 @@ Instructor: Prof. Cho-Jui Hsieh\\[2pt]
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[LE,RO]{\thepage}
+<<<<<<< HEAD
+\fancyhead[CE]{STA141C: High Performance Statistical Computing}
+\fancyhead[RE]{}
+\fancyhead[CO]{W. Miao, M. Xue, R. Wang: Kobe Bryant Shot Selection }
+=======
 \fancyhead[CE]{STA141C: High Performance Statistical Computing, Course Project}
 \fancyhead[RE]{Project}
 \fancyhead[CO]{W. Miao, M. Xue, R. Wang:Kobe Bryant Shot Selection }
+>>>>>>> 40f211d26abe97323efd3d418d23c5a5d18df529
 \fancyhead[LO]{}
 \setlist{nolistsep}
 \captionsetup{font=small}
@@ -83,6 +102,35 @@ Instructor: Prof. Cho-Jui Hsieh\\[2pt]
 \setlength{\oddsidemargin}{-.5cm}  % 3.17cm - 1 inch
 \setlength{\evensidemargin}{\oddsidemargin}
 \setlength{\textwidth}{17.00cm}
+<<<<<<< HEAD
+
+\begin{abstract}
+In the real world application of machine learning, it is always difficult to apply the algorithms from books definitely. Most of the time, we find that the result of our machine learning method does not work well without data preparation and feature engineering.\par 
+Using 20 years of data on Kobe Bryant's swishes and misses in NBA, we will predict which shots will find the bottom of the net. By this dataset from Kaggle, we practice feature engineering and classification basics with different kinds of machine learning methods. At last, we give the conclusion of our job concretely.
+\end{abstract}	
+\section{Introduction}
+When applying machine learning method in the real world application, we always do data preprocessing and feature engineering before we use the algorithms, especially, the dataset contains a lot of catogorical variables. However, nowadays, some algorithms can help us a lot from feature engineering (for example, xgboost method).\par
+In this paper, firstly, we transform the dataset into data matrix and then mine the most important information through the plots. As a first try, we apply the machine learing methods including logistic regression, SVM, neural networks. Then we do more feature engineering with PCA and xgboost to make our data matrix more accurate. At last, we compared different algorithms on the new data matrix.
+\section{Data Describing}
+\begin{table}[H]
+	\centering
+	\begin{tabular}{cccc}
+		\midrule[1.5pt]
+		Name &Variable Kind  & Name&Variable Kind\\
+		\hline
+		action\_type &category	&seconds\_remaining       &  int64			\\
+		combined\_shot\_type &category	&period     &   int64		\\
+		game\_event\_id    &category	&shot\_made\_flag      			&category\\
+		game\_id                     &category	&shot\_type                   &category	\\
+		lat                         & float64	&shot\_zone\_area              &category		\\
+		loc\_x                       &   int64&	shot\_zone\_basic             &category		\\
+		loc\_y                       &   int64	&shot\_zone\_range             &category	\\
+		lon                         & float64	&team\_name                   &category		\\
+		minutes\_remaining           &   int64	&	matchup                     &category		\\
+		period                      &   int64	&opponent                    &category		\\
+		playoffs                    &category	&	
+		season                      &category		\\	
+=======
 \tableofcontents
 \newpage
 \section{Introduction}
@@ -120,10 +168,24 @@ Instructor: Prof. Cho-Jui Hsieh\\[2pt]
 		game\_date             		&datetime64[ns]&	\\
 		matchup                     &category	&	\\
 		opponent                    &category	&	\\
+>>>>>>> 40f211d26abe97323efd3d418d23c5a5d18df529
 		\midrule[1.5pt]
 	\end{tabular}
 	\caption{A summary table for the variables }
 \end{table}
+<<<<<<< HEAD
+\section{Feature Selection and Engineering}
+
+\section{Basic Machine Learning Methods}
+\subsection{Logistic Regression}
+\subsection{Support Vector Machine}
+\subsection{Neural Networks}
+\subsection{Algorithm Comparison}
+\section{Dimension Reduction with PCA or XGboost}
+\section{Apply Supervised Learning Method}
+
+=======
+>>>>>>> 40f211d26abe97323efd3d418d23c5a5d18df529
 
 
 \end{document}
